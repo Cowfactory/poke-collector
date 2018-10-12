@@ -15,7 +15,7 @@
 <body>
     <header class="navbar-fixed">
         <nav>
-            <div class="nav-wrapper">
+            <div class="nav-wrapper red">
                 <ul>
                     <li><a href="{% url 'index' %}" class="left brand-logo">&nbsp;&nbsp;Poke Catch'em</a></li>
                 </ul>
@@ -38,10 +38,10 @@
     {% endblock %}
     </main>
 
-    <footer class="page-footer">
-        <!-- <div class="container"> -->
-            <div class="right"> 2018 Henry Hong&nbsp;</div>
-        <!-- </div> -->
+    <footer class="page-footer red">
+        <div class="footer-copyright">
+            <div class="container"> 2018 Henry Hong&nbsp;</div>
+        </div>
     </footer>
 
     {% block javascript %}
