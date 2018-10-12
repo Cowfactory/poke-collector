@@ -1,0 +1,69 @@
+{% load staticfiles %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Poke Collector</title>
+    {% block css %}
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
+    <link rel="stylesheet" type="text/css" href="{% static 'style.css' %}">
+    {% endblock css %}
+</head>
+<body>
+    <header class="navbar-fixed">
+        <nav>
+            <div class="nav-wrapper">
+                <ul>
+                    <li><a href="{% url 'index' %}" class="left brand-logo">&nbsp;&nbsp;Poke Catch'em</a></li>
+                </ul>
+                <ul class="right">
+                    {% if user.is_authenticated %}
+                        <li>Welcome {{ user.username }}</li>
+                        <li><a href="{% url 'profile' %}" class="right">Profile</a></li>
+                        <li><a href="{% url 'logout' %}" class="right">Logout</a></li>
+                    {% else %}
+                        <li><a href="{% url 'signup' %}" class="right">Sign up</a></li>
+                        <li><a href="{% url 'login' %}" class="right">Login</a></li>
+                    {% endif %}
+                </ul>
+            </div>
+        </nav>
+    </header>
+    
+    <main class="container">
+    {% block content %}
+    {% endblock %}
+    </main>
+
+
+    <footer class="page-footer">
+        <!-- <div class="container"> -->
+            <div class="right"> 2018 Henry Hong&nbsp;</div>
+        <!-- </div> -->
+    </footer>
+
+    {% block javascript %}
+    <script src="https://code.jquery.com/jquery-3.3.1.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8="
+        crossorigin="anonymous"></script>
+    
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0-rc.1/js/materialize.min.js" integrity="sha256-SrBfGi+Zp2LhAvy9M1bWOCXztRU9Ztztxmu5BcYPcPE="
+        crossorigin="anonymous"></script>
+    
+    <script>
+        var dateEl = document.getElementById('id_date');
+        M.Datepicker.init(dateEl, {
+            format: 'yyyy-mm-dd',
+            defaultDate: new Date(),
+            setDefaultDate: true,
+            autoClose: true
+        });
+        // add additional JS to initialize select below
+        var selectEl = document.getElementById('id_meal');
+        M.FormSelect.init(selectEl);
+    </script>
+    {% endblock javascript %}
+</body>
+</html>
