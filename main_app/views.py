@@ -12,8 +12,9 @@ def home(request):
     return HttpResponseRedirect('/')
 
 def login_view(request):
+    errMsg = ""
     if request.method == 'POST':
-        # if post, then authenticate (user submitted username and password)
+        # if POST, then authenticate (user submitted username and password)
         form = LoginForm(request.POST)
         if form.is_valid():
             u = form.cleaned_data['username']
@@ -27,12 +28,13 @@ def login_view(request):
                     errMsg = "The account has been disabled."
             else:
                 errMsg = "The username and/or password is incorrect."
-            return render(request, 'login.html', {'form': form, 'err': errMsg})
-    else:
-        form = LoginForm()
-        return render(request, 'login.html', {'form': form})
+    
+    #If any of the above conditions fail - render a login form
+    form = LoginForm()
+    return render(request, 'login.html', {'form': form, 'err': errMsg})
 
 def signup(request):
+    errMsg = ""
     if request.method == 'POST':
         form = UserCreationForm(request.POST)
         if form.is_valid():
@@ -40,12 +42,10 @@ def signup(request):
             login(request, user)
             return redirect('index')
         else:
-            form = UserCreationForm()
             errMsg = "One or more fields was invalid, please try again"
-            return render(request, 'signup.html', {'form': form, 'err': errMsg})
-    else:
-        form = UserCreationForm()
-        return render(request, 'signup.html', {'form': form})
+    
+    form = UserCreationForm()
+    return render(request, 'signup.html', {'form': form, 'err': errMsg})
 
 def profile(request):
     return HttpResponseRedirect('/')
