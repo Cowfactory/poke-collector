@@ -11,6 +11,10 @@ def index(request):
 def home(request):
     return HttpResponseRedirect('/')
 
+def logout_view(request):
+    logout(request)
+    return HttpResponseRedirect('/')
+
 def login_view(request):
     errMsg = ""
     if request.method == 'POST':
@@ -50,6 +54,9 @@ def signup(request):
 def profile(request):
     return HttpResponseRedirect('/')
 
-def logout_view(request):
-    logout(request)
-    return HttpResponseRedirect('/')
+### MAPS
+def maps(request):
+    return render(request, 'maps/index.html')
+
+def maps_index(request):
+    return render(request, 'maps/index.html')
