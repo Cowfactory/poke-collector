@@ -2,6 +2,7 @@
 
 {% block content %}
 <h1>Login</h1>
+<h5>{{ err }}</h5>
 <form method="POST" action=".">
     {% csrf_token %}
     {{ form.as_p }}

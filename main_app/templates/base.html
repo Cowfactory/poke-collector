@@ -21,7 +21,7 @@
                 </ul>
                 <ul class="right">
                     {% if user.is_authenticated %}
-                        <li>Welcome {{ user.username }}</li>
+                        <li>Welcome {{ user.username }}&nbsp;&nbsp;|</li> 
                         <li><a href="{% url 'profile' %}" class="right">Profile</a></li>
                         <li><a href="{% url 'logout' %}" class="right">Logout</a></li>
                     {% else %}
@@ -37,7 +37,6 @@
     {% block content %}
     {% endblock %}
     </main>
-
 
     <footer class="page-footer">
         <!-- <div class="container"> -->
