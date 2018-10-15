@@ -18,9 +18,8 @@ urlpatterns = [
    
     # Profile / Caught Pokemon 
     path('pokebox/', views.pokebox_index, name="pokebox_index"),
-    # path('pokebox/<int:trainer_id>/', views.pokebox_detail, name="pokebox_detail"),
-    # path('pokebox/<int:trainer_id>/<int:pokemon_id>/', views.caught_pokemon_detail, name="pokemon_detail"),
-    # path('pokebox/<int:trainer_id>/create/', views.CaughtPokemonCreate.as_view(), name="pokemon_create"),
+    path('pokebox/<int:pk>/', views.pokebox_detail, name="pokebox_detail"),
+    path('pokebox/create/', views.CaughtPokemonCreate.as_view(), name="pokemon_create"),
 
     # Pokedex
     path('pokedex/', views.pokedex, name="pokedex"),

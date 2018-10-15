@@ -53,22 +53,23 @@ def signup(request):
     form = UserCreationForm()
     return render(request, 'signup.html', {'form': form, 'err': errMsg})
 
+### LEADERBOARD ###
+def leaderboard(request):
+    return render(request, 'index.html')
+
+### PROFILE ###
 @login_required
 def profile(request):
     return render(request, 'profile.html')
 
-### MAPS
+### MAPS ###
 def maps_index(request):
     return render(request, 'maps/index.html')
 
 def maps_detail(request):
     return render(request, 'maps/detail.html')
 
-### LEADERBOARD
-def leaderboard(request):
-    return render(request, 'index.html')
-
-### POKEMON BOX
+### POKEMON BOX ###
 class CaughtPokemonCreate(CreateView):
     model = CaughtPokemon
     fields = '__all__'
@@ -85,13 +86,11 @@ def pokebox_index(request):
     pokemons = CaughtPokemon.objects.filter(trainer_id=user.id)
     return render(request, 'pokebox/index.html', {'pokemons': pokemons})
 
-
-def pokebox_detail(request, trainer_id):
-    return HttpResponseRedirect('/index.html')
-
 @login_required
-def caught_pokemon_detail(request, trainer_id):
-    return render(request, 'pokemon/detail.html')   
+def pokebox_detail(request, pk):
+    pokemon = CaughtPokemon.objects.get(pk=pk)
+    return render(request, 'pokebox/detail.html', {'pokemon': pokemon})
+
 
 
 ### POKEDEX

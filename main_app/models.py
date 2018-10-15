@@ -25,31 +25,7 @@ GENDER = (
 )
 
 # Create your models here.
-class CaughtPokemon(models.Model):
-    trainer_id = models.ForeignKey(
-        settings.AUTH_USER_MODEL,
-        #user = models.ForeignKey(User, on_delete=models.CASCADE)?
-        on_delete = models.CASCADE
-    )
-    pokedex_id = models.ForeignKey(
-        'PokedexPokemon',
-        on_delete = models.CASCADE
-    )
-    gender = models.CharField(
-        max_length = 6,
-        choices = GENDER,
-        default = GENDER[0]
-    )
-    nickname = models.CharField(
-        max_length = 20,
-        null=True
-    )
-    level = models.IntegerField()
-    description = models.CharField(max_length=200)
-    capture_date = models.DateField()
 
-    def __str__(self):
-        return f"{self.trainer_id.username}'s {self.pokedex_id.name} - Lvl. {self.level}"
     
 
 class PokedexPokemon(models.Model):      
@@ -74,3 +50,33 @@ class PokedexPokemon(models.Model):
 
     def __str__(self):
         return f"{self.pokedex_id} {self.name}"
+
+
+class CaughtPokemon(models.Model):
+    trainer_id = models.ForeignKey(
+        settings.AUTH_USER_MODEL,
+        #user = models.ForeignKey(User, on_delete=models.CASCADE)?
+        on_delete = models.CASCADE
+    )
+    pokedex_id = models.ForeignKey(
+        'PokedexPokemon',
+        on_delete = models.CASCADE
+    )
+    gender = models.CharField(
+        max_length = 6,
+        choices = GENDER,
+        default = GENDER[0]
+    )
+    nickname = models.CharField(
+        max_length = 20,
+        null=True,
+    )
+    level = models.IntegerField()
+    description = models.CharField(max_length=200)
+    capture_date = models.DateField()
+
+    def __str__(self):
+        if self.nickname == None:
+            return f"Lvl.{self.level} {self.pokedex_id.name} - {self.trainer_id.username}'s {self.nickname}"
+        else:
+            return f"Lvl.{self.level} {self.pokedex_id.name} - {self.trainer_id.username}"
