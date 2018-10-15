@@ -1,0 +1,24 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<h1>Pokemon List</h1>
+<a href="{% url 'pokemon_create' %}">Create a new Pokemon</a>
+
+{% for pokemon in pokemons %}
+    <div class="col l3 m4 s12">
+        <div class="card">
+            <div class="card-image">
+                <img src="https://www.w3schools.com/w3css/img_lights.jpg">
+                <span class="card-title black">{{ pokemon.nickname }}</span>
+            </div>
+            <div class="card-content">
+                <p>{{ pokemon.description }}</p>
+            </div>
+            <div class="card-action">
+                <a href="#">Release this Pokemon</a>
+            </div>
+        </div>
+    </div>
+{% endfor %}
+
+{% endblock %}

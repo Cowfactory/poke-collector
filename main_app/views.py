@@ -2,7 +2,9 @@ from django.shortcuts import render, redirect
 from django.http import HttpResponseRedirect
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.forms import UserCreationForm
+from django.views.generic.edit import CreateView, UpdateView, DeleteView
 from .forms import LoginForm
+from .models import CaughtPokemon
 
 # Create your views here.
 def index(request):
@@ -52,11 +54,33 @@ def signup(request):
     return render(request, 'signup.html', {'form': form, 'err': errMsg})
 
 def profile(request):
-    return HttpResponseRedirect('/')
+    return render(request, 'profile.html')
 
 ### MAPS
-def maps(request):
-    return render(request, 'maps/index.html')
-
 def maps_index(request):
     return render(request, 'maps/index.html')
+
+def maps_detail(request):
+    return render(request, 'maps/detail.html')
+
+
+
+### POKEMON
+class PokemonCreate(CreateView):
+    model = CaughtPokemon
+    fields = '__all__'
+
+    def form_valid(self, form):
+        self.object = form.save(commit=False)
+        self.object.user = self.request.user
+        self.object.save()
+        return HttpResponseRedirect('index.html/')
+
+def pokemon_index(request):
+    pokemons = CaughtPokemon.objects.all()
+    return render(request, 'pokemon/index.html', {'pokemons': pokemons})
+
+def pokemon_detail(request):
+    return render(request, 'pokemon/detail.html')   
+
+
