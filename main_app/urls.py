@@ -4,7 +4,6 @@ from . import views
 urlpatterns = [
     # Main Menu
     path('', views.index, name='index'),
-    path('home/', views.home, name='home'),
     path('login/', views.login_view, name='login'),
     path('logout/', views.logout_view, name='logout'),
     path('signup/', views.signup, name='signup'),
@@ -12,11 +11,18 @@ urlpatterns = [
 
     # Maps
     path('maps/', views.maps_index, name='maps_index'),
-    path('maps/<int:map_id>', views.maps_detail, name="maps_detail"),
+    path('maps/<int:map_id>/', views.maps_detail, name="maps_detail"),
 
-    # Pokemon 
-    path('pokemon/', views.pokemon_index, name="pokemon_index"),
-    path('pokemon/<int:pk>', views.pokemon_detail, name="pokemon_detail"),
-    path('pokemon/create', views.PokemonCreate.as_view(), name="pokemon_create"),
+    #Leaderboard
+    path('leaderboard/', views.leaderboard, name='leaderboard'),
+   
+    # Profile / Caught Pokemon 
+    path('pokebox/', views.pokebox_index, name="pokebox_index"),
+    # path('pokebox/<int:trainer_id>/', views.pokebox_detail, name="pokebox_detail"),
+    # path('pokebox/<int:trainer_id>/<int:pokemon_id>/', views.caught_pokemon_detail, name="pokemon_detail"),
+    # path('pokebox/<int:trainer_id>/create/', views.CaughtPokemonCreate.as_view(), name="pokemon_create"),
+
+    # Pokedex
+    path('pokedex/', views.pokedex, name="pokedex"),
 
 ]

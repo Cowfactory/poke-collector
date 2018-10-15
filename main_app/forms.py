@@ -1,4 +1,4 @@
-from django.forms import ModelForm, Form, CharField, PasswordInput, CheckboxSelectMultiple
+from django.forms import ModelForm, Form, DateField, CharField, PasswordInput, CheckboxSelectMultiple
 from .models import CaughtPokemon
 
 class LoginForm(Form):
@@ -8,8 +8,8 @@ class LoginForm(Form):
 class PokemonForm(ModelForm):
     class Meta:
         model = CaughtPokemon
-        fields = ['gender', 'level', 'description', 'capture_date']
+        fields = ['pokedex_id', 'gender', 'level', 'description', 'capture_date']
         widgets = {
             'gender': CheckboxSelectMultiple,
-            'capture_date': CheckboxSelectMultiple,
+            'capture_date': DateField,
         }

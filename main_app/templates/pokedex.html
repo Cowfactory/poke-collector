@@ -1,0 +1,24 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    <div class="narrow">
+        <h1>Pokedex</h1>
+        {% for pokemon in pokedex %}
+        <div class="row">
+            <div class="card horizontal">
+                <div class="card-image">
+                        <img style="height:100px" src="{{ pokemon.icon_url }}"> 
+                </div>  
+                <div class="card-stacked">
+                        <h2 class="grey-text text-darken-3">{{ pokemon.name }}</h2>
+                        <p class="black-text">ID: {{ pokemon.pokedex_id }} | Type: {{pokemon.type1 }} {{pokemon.type2}} </p>
+                        <div class="card-action">
+                            <a href="#">This is a link</a>
+                        </div>  
+                </div>
+        </div>
+        {% endfor %}
+    </div>
+    
+    
+{% endblock %}

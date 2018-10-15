@@ -2,16 +2,16 @@ from django.shortcuts import render, redirect
 from django.http import HttpResponseRedirect
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.forms import UserCreationForm
+from django.contrib.auth.models import User
+from django.contrib.auth.decorators import login_required
 from django.views.generic.edit import CreateView, UpdateView, DeleteView
 from .forms import LoginForm
-from .models import CaughtPokemon
+from .models import PokedexPokemon, CaughtPokemon
 
 # Create your views here.
 def index(request):
     return render(request, 'index.html')
 
-def home(request):
-    return HttpResponseRedirect('/')
 
 def logout_view(request):
     logout(request)
@@ -53,6 +53,7 @@ def signup(request):
     form = UserCreationForm()
     return render(request, 'signup.html', {'form': form, 'err': errMsg})
 
+@login_required
 def profile(request):
     return render(request, 'profile.html')
 
@@ -63,10 +64,12 @@ def maps_index(request):
 def maps_detail(request):
     return render(request, 'maps/detail.html')
 
+### LEADERBOARD
+def leaderboard(request):
+    return render(request, 'index.html')
 
-
-### POKEMON
-class PokemonCreate(CreateView):
+### POKEMON BOX
+class CaughtPokemonCreate(CreateView):
     model = CaughtPokemon
     fields = '__all__'
 
@@ -74,13 +77,25 @@ class PokemonCreate(CreateView):
         self.object = form.save(commit=False)
         self.object.user = self.request.user
         self.object.save()
-        return HttpResponseRedirect('index.html/')
+        return HttpResponseRedirect('/index.html')
 
-def pokemon_index(request):
-    pokemons = CaughtPokemon.objects.all()
-    return render(request, 'pokemon/index.html', {'pokemons': pokemons})
+@login_required
+def pokebox_index(request):
+    user = request.user
+    pokemons = CaughtPokemon.objects.filter(trainer_id=user.id)
+    return render(request, 'pokebox/index.html', {'pokemons': pokemons})
 
-def pokemon_detail(request):
+
+def pokebox_detail(request, trainer_id):
+    return HttpResponseRedirect('/index.html')
+
+@login_required
+def caught_pokemon_detail(request, trainer_id):
     return render(request, 'pokemon/detail.html')   
 
+
+### POKEDEX
+def pokedex(request):
+    return render(request, 'pokedex.html', {'pokedex': PokedexPokemon.objects.all()})
+    
 
