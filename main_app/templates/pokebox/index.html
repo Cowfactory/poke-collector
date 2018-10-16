@@ -1,8 +1,34 @@
 {% extends 'base.html' %}
 
 {% block content %}
-    <h1>{{ user }}</h1>
-    {% for pokemon in pokemons %}
-        <p>{{ pokemon }}</p>
-    {% endfor %}
+<h1>{{ user }}</h1>
+{% for pokemon in pokemons %}
+    <div class="row">
+        <div class="col l3 m6 s12">
+            <div class="card">
+                <div class="card-image">
+                    <img src="{{ pokemon.pokedex_id.art_url }}">
+                    <span class="card-title grey-text text-darken-3">{{ pokemon.nickname }}</span>
+                </div>
+                <div class="card-content">
+                    <p>{{ pokemon.description }}</p>
+                </div>
+                <div class="card-action">
+                    <p class="grey-text text-darken-3">Suigomoto Art:</p>
+                    <a href="#" onclick="changeArt(this, '{{ pokemon.pokedex_id.art_url }}' )">Original</a>
+                    <a href="#" onclick="changeArt(this, '{{ pokemon.pokedex_id.early_art_url }}' )">Early</a>
+                    <a href="#" onclick="changeArt(this, '{{ pokemon.pokedex_id.early_jp_art_url }}')">Early JP</a>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endfor %}
+
+<script>
+    function changeArt(clickedNode, url) {
+        // console.log(evt)
+        let img = clickedNode.parentNode.parentNode.children[0].children[0];
+        img.src = url;
+    }
+</script>
 {% endblock %}
