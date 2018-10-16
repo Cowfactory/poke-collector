@@ -30,8 +30,16 @@ GENDER = (
 # Create your models here.
 class Profile(models.Model): #extended user model
     user = models.OneToOneField(User, on_delete=models.CASCADE)
-    bio = models.TextField(max_length=500, blank=True)
-    location = models.CharField(max_length=30, blank=True)
+    bio = models.TextField(
+        max_length=500, 
+        blank=True,
+        null = True,
+    )
+    location = models.CharField(
+        max_length=30,
+        blank=True,
+        null = True,
+    )
     # favorites = models.CharField(
     #     max_length = 30 ) 
 
@@ -60,7 +68,8 @@ class PokedexPokemon(models.Model):
     )
     type2 = models.CharField(
         max_length=10, 
-        blank=True,
+        blank = True,
+        null = True,
         choices = ELEMENT,
     )
     # evolution_lvl = models.IntegerField()
@@ -87,15 +96,18 @@ class CaughtPokemon(models.Model):
         max_length = 6,
         choices = GENDER,
         blank = True,
+        null = True,
     )
     nickname = models.CharField(
         max_length = 20,
         blank = True,
+        null = True,
     )
     level = models.IntegerField()
     description = models.CharField(
         max_length=200,
         blank = True,
+        null = True,
     )
     capture_date = models.DateField()
 

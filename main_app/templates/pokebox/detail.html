@@ -2,28 +2,28 @@
 {% extends 'base.html' %}
 
 {% block content %}
-{% for pokemon in pokemons %}
-    <div class="row">
-        <div class="col l3 m6 s12">
-            <div class="card">
-                <div class="card-image">
-                    <img src="{{ pokemon.art_url }}">
-                    <span class="card-title grey-text text-darken-3">asdf</span>
-                </div>
-                <div class="card-content">  
-                    <p>asdf</p>
-                </div>
-                <div class="card-action">
-                    <p class="grey-text text-darken-3">Suigomoto Art:</p>
-                    <a onclick="changeArt(this, '{{ pokemon.art_url }}' )">Original</a>
-                    <a onclick="changeArt(this, '{{ pokemon.early_art_url }}' )">Early</a>
-                    <a onclick="changeArt(this, '{{ pokemon.early_jp_art_url }}')">JP</a>
-                </div>
+<h5>pokebox</h5>
+<div class="row">
+    {% for pokemon in caughtPokemons %}
+    <div class="col l3 m6 s12">
+        <div class="card">
+            <div class="card-image">
+                <img src="{{ pokemon.pokedex.art_url }}">
+                <span class="card-title black-text text-darken-3">{{ pokemon.pokedex.name }}</span>
+            </div>
+            <div class="card-content">  
+                <p>{{ pokemon.description }}</p>
+            </div>
+            <div class="card-action">
+                <p class="grey-text text-darken-3">Suigomoto Art:</p>
+                <a onclick="changeArt(this, '{{ pokemon.art_url }}' )">Original</a>
+                <a onclick="changeArt(this, '{{ pokemon.early_art_url }}' )">Early</a>
+                <a onclick="changeArt(this, '{{ pokemon.early_jp_art_url }}')">JP</a>
             </div>
         </div>
     </div>
-{% endfor %}
-
+    {% endfor %}
+</div>
 <script>
     function changeArt(clickedNode, url) {
         // console.log(evt)

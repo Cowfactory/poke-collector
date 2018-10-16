@@ -112,7 +112,8 @@ class PokeboxList(ListView):
 @login_required
 def pokebox_detail(request, pk):
     pokemons = CaughtPokemon.objects.filter(trainer=pk)
-    return render(request, 'pokebox/detail.html', {'pokemons', pokemons})
+    print(pokemons)
+    return render(request, 'pokebox/detail.html', {'caughtPokemons': pokemons})
 
 
 

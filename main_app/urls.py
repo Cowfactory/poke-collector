@@ -14,7 +14,7 @@ urlpatterns = [
     
     # Profiles
     path('profiles/', views.profiles_index, name='profiles_index'),
-    path('profiles/<int:pk>', views.profiles_detail, name='profiles_detail'),   
+    path('profiles/<int:pk>/', views.profiles_detail, name='profiles_detail'),   
 
     # Maps
     path('maps/', views.maps_index, name='maps_index'),
@@ -22,13 +22,13 @@ urlpatterns = [
 
     # User's Pokemon Box (Pokebox) 
     path('pokebox/', views.PokeboxList.as_view(), name='pokebox_index'),
-    path('pokebox/<int:pk>', views.pokebox_detail, name='pokebox_detail'),
+    path('pokebox/<int:pk>/', views.pokebox_detail, name='pokebox_detail'),
     # path('pokebox/<int:pk>/<int:pk>', views.PokeboxDetail.as_view(), name='single pokemon'),
     path('pokebox/<int:pk>/create/', views.CaughtPokemonCreate.as_view(), name='caughtPokemon_create'),
     
     # Pokedex
     path('pokedex/', views.pokedex, name='pokedex'),
-    path('pokedex/<int:pk>', views.pokedex_detail, name='pokedex_detail'),
+    path('pokedex/<int:pk>/', views.pokedex_detail, name='pokedex_detail'),
     
     # Moves
     # path('moves/', views.moves_index, name='moves_index'),
