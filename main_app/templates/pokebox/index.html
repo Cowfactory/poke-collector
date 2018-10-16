@@ -3,8 +3,8 @@
 {% block content %}
 <h1>Pokebox List</h1>
 
-{% for user in users %}
-    <h5>{{ user }}'s pokebox</h5>
+{% for profile in profiles %}
+    <h5><a href="{% url 'pokebox_detail' profile.id %}">{{ profile }}'s pokebox</a></h5>
     
 {% endfor %}
 

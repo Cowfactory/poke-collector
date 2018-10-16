@@ -7,12 +7,16 @@ from django.contrib.auth.decorators import login_required
 from django.views.generic.edit import CreateView, UpdateView, DeleteView
 from django.views.generic import ListView, DetailView
 from .forms import LoginForm
-from .models import PokedexPokemon, CaughtPokemon
+from .models import Profile, PokedexPokemon, CaughtPokemon
 
-## Main Menu Views
-def index(request):
-    return render(request, 'index.html')
+def debug(request):
+    return render(request, 'debug.html')
 
+## Root
+def home(request):
+    return render(request, 'home.html')
+
+## Auth
 def login_view(request):
     errMsg = ""
     if request.method == 'POST':
@@ -53,17 +57,16 @@ def signup(request):
     form = UserCreationForm()
     return render(request, 'signup.html', {'form': form, 'err': errMsg})
 
+## Profiles Views
 @login_required
-def profile(request):
-    return render(request, 'profile.html')
+def profiles_index(request):
+    profiles = Profile.objects.order_by('user')
+    return render(request, 'profiles/index.html', {'profiles': profiles})
 
-## Pokedex View
-def pokedex(request):
-    return render(request, 'pokedex.html', {'pokedex': PokedexPokemon.objects.all()})
-
-## Leaderboard View
-def leaderboard(request):
-    return render(request, 'index.html')
+@login_required
+def profiles_detail(request, pk):
+    profile = Profile.objects.get(pk=pk)
+    return render(request, 'profiles/detail.html', {'profile': profile})
 
 ## Maps Views
 def maps_index(request):
@@ -72,16 +75,7 @@ def maps_index(request):
 def maps_detail(request):
     return render(request, 'maps/detail.html')
 
-## Caught Pokemon Views
-@login_required
-def caughtPokemons_index(request):
-    pokemons = CaughtPokemon.objects.all()
-    return render(request, 'pokemon/index.html', {'pokemons': pokemons})
 
-@login_required
-def caughtPokemons_detail(request, pk):
-    pokemon = CaughtPokemon.objects.get(pk=pk)
-    return render(request, 'pokemon/detail.html', {'pokemon': pokemon})
 
 class CaughtPokemonCreate(CreateView):
     model = CaughtPokemon
@@ -94,34 +88,53 @@ class CaughtPokemonCreate(CreateView):
         return HttpResponseRedirect('/')
 
 ## Pokebox Views
-# @login_required
-# def pokebox_index(request):
-#     user = request.user
-#     pokemons = CaughtPokemon.objects.filter(trainer_id=user.id)
-#     return render(request, 'pokebox/index.html', {'pokemons': pokemons})
-
-# def pokebox_detail(request, pk):
-#     pokemons = CaughtPokemon.objects.filter(pk=pk)
-#     return render(request, 'pokebox/detail.html', {'pokemons': pokemons})
-
 class PokeboxList(ListView):
-    model = CaughtPokemon
-    context_object_name = 'pokebox'
-    template_name = 'pokebox/index.html'
+        model = Profile
+        context_object_name = 'profiles'
+        template_name = 'pokebox/index.html'
 
-class PokeboxDetail(DetailView):
-    model = CaughtPokemon
-    context_object_name = 'pokebox' # my custom template var name
-    template_name = 'pokebox/detail.html' # specify where the template is located in fs
+        # def get_context_data(self, **kwargs):
+        #     # Call the base implementation first to get a context
+        #     context = super().get_context_data(**kwargs)
+        #     # Add in a QuerySet of all the Pokebox belonging to the user
+        #     thing = []
+        #     for user in User.objects.all():
+        #         thing.append())
 
-    def get_context_data(self, **kwargs):
-        # Call the base implementation first to get a context
-        context = super().get_context_data(**kwargs)
-        # Add in a QuerySet of all the Pokebox belonging to the user
-        context['pokebox'] = CaughtPokemon.objects.filter(trainer_id=self.kwargs['pk'])
-        return context
+        #     all_pokemon = CaughtPokemon.objects.all()
+        #     for pokemon in all_pokemon:
+        #         thing[pokemon.trainer_id] 
+
+        #     context['user'] =
+        
+        #     return context
+
+@login_required
+def pokebox_detail(request, pk):
+    pokemons = CaughtPokemon.objects.filter(trainer=pk)
+    return render(request, 'pokebox/detail.html', {'pokemons', pokemons})
 
 
 
+## Pokedex View
+def pokedex(request):
+    return render(request, 'pokedex.html', {'pokedex': PokedexPokemon.objects.all()})
+
+def pokedex_detail(request):
+    return render(request, 'index.html')
+
+## Leaderboard View
+def leaderboard(request):
+    return render(request, 'index.html')
 
 
+## Caught Pokemon Views
+# @login_required
+# def caughtPokemons_index(request):
+#     pokemons = CaughtPokemon.objects.all()
+#     return render(request, 'pokemon/index.html', {'pokemons': pokemons})
+
+# @login_required
+# def caughtPokemons_detail(request, pk):
+#     pokemon = CaughtPokemon.objects.get(pk=pk)
+#     return render(request, 'pokemon/detail.html', {'pokemon': pokemon})

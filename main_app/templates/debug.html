@@ -6,8 +6,7 @@
     <p><a href="#">Maps(unf)</a></p>
     
     <h5>CaughtPokemon Views</h5>
-    <p><a href="{% url 'caughtPokemons_index' %}">View all caught Pokemon</a></p>
-    <p><a href="{% url 'caughtPokemons_create' %}">Catch a Pokemon</a></p>
+    <p><a href="{% url 'caughtPokemon_create' user.id %}">Catch a Pokemon</a></p>
 
     <h5>Pokebox Views</h5>
     <p><a href="{% url 'pokebox_index' %}">View user pokebox list</a></p>

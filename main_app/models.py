@@ -1,6 +1,8 @@
 from django.conf import settings
 from django.db import models
-from django.urls import reverse
+from django.db.models.signals import post_save
+from django.dispatch import receiver
+from django.contrib.auth.models import User
 
 ELEMENT = (
     ('Normal', 'Normal'),
@@ -26,11 +28,30 @@ GENDER = (
 )
 
 # Create your models here.
+class Profile(models.Model): #extended user model
+    user = models.OneToOneField(User, on_delete=models.CASCADE)
+    bio = models.TextField(max_length=500, blank=True)
+    location = models.CharField(max_length=30, blank=True)
+    # favorites = models.CharField(
+    #     max_length = 30 ) 
 
-    
+
+    def __str__(self):
+        return f"{self.user}'s profile"
+
+# receivers to create/delete a Profile for every User
+@receiver(post_save, sender=User)
+def create_user_profile(sender, instance, created, **kwargs):
+    if created:
+        Profile.objects.create(user=instance)
+
+@receiver(post_save, sender=User)
+def save_user_profile(sender, instance, **kwargs):
+    instance.profile.save()
+
 
 class PokedexPokemon(models.Model):      
-    pokedex_id = models.CharField(max_length=5)
+    identifier = models.CharField(max_length=5)
     name = models.CharField(max_length=20)
     type1 = models.CharField(
         max_length = 10,
@@ -39,7 +60,7 @@ class PokedexPokemon(models.Model):
     )
     type2 = models.CharField(
         max_length=10, 
-        null=True,
+        blank=True,
         choices = ELEMENT,
     )
     # evolution_lvl = models.IntegerField()
@@ -50,35 +71,36 @@ class PokedexPokemon(models.Model):
     icon_url = models.CharField(max_length=200)
 
     def __str__(self):
-        return f"{self.pokedex_id} {self.name}"
+        return f"{self.identifier} {self.name}"
 
 
 class CaughtPokemon(models.Model):
-    trainer_id = models.ForeignKey(
-        settings.AUTH_USER_MODEL,
-        #user = models.ForeignKey(User, on_delete=models.CASCADE)?
+    trainer = models.ForeignKey(
+        'Profile',
         on_delete = models.CASCADE
     )
-    pokedex_id = models.ForeignKey(
+    pokedex = models.ForeignKey(
         'PokedexPokemon',
         on_delete = models.CASCADE
     )
     gender = models.CharField(
         max_length = 6,
         choices = GENDER,
-        default = GENDER[0]
+        blank = True,
     )
     nickname = models.CharField(
         max_length = 20,
-        null=True,
+        blank = True,
     )
     level = models.IntegerField()
-    description = models.CharField(max_length=200)
+    description = models.CharField(
+        max_length=200,
+        blank = True,
+    )
     capture_date = models.DateField()
 
     def __str__(self):
         if self.nickname == None:
-            return f"Lvl.{self.level} {self.pokedex_id.name} - {self.trainer_id.username}'s {self.nickname}"
+            return f"Lvl.{self.level} {self.pokedex.name} - {self.trainer.user}'s {self.nickname}"
         else:
-            return f"Lvl.{self.level} {self.pokedex_id.name} - {self.trainer_id.username}"
-
+            return f"Lvl.{self.level} {self.pokedex.name} - {self.trainer.user}"

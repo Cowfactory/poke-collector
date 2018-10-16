@@ -4,4 +4,5 @@ from .models import *
 # Register your models here.
 admin.site.register(PokedexPokemon)
 admin.site.register(CaughtPokemon)
+admin.site.register(Profile)
 
