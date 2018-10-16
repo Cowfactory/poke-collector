@@ -75,14 +75,13 @@ def maps_detail(request):
 ## Caught Pokemon Views
 @login_required
 def caughtPokemons_index(request):
-    user = request.user
-    pokemons = CaughtPokemon.objects.filter(trainer_id=user.id)
-    return render(request, 'pokebox/index.html', {'pokemons': pokemons})
+    pokemons = CaughtPokemon.objects.all()
+    return render(request, 'pokemon/index.html', {'pokemons': pokemons})
 
 @login_required
 def caughtPokemons_detail(request, pk):
     pokemon = CaughtPokemon.objects.get(pk=pk)
-    return render(request, 'pokebox/detail.html', {'pokemon': pokemon})
+    return render(request, 'pokemon/detail.html', {'pokemon': pokemon})
 
 class CaughtPokemonCreate(CreateView):
     model = CaughtPokemon
@@ -92,7 +91,7 @@ class CaughtPokemonCreate(CreateView):
         self.object = form.save(commit=False)
         self.object.user = self.request.user
         self.object.save()
-        return HttpResponseRedirect('/index.html')
+        return HttpResponseRedirect('/')
 
 ## Pokebox Views
 # @login_required
@@ -118,7 +117,7 @@ class PokeboxDetail(DetailView):
     def get_context_data(self, **kwargs):
         # Call the base implementation first to get a context
         context = super().get_context_data(**kwargs)
-        # Add in a QuerySet of all the books
+        # Add in a QuerySet of all the Pokebox belonging to the user
         context['pokebox'] = CaughtPokemon.objects.filter(trainer_id=self.kwargs['pk'])
         return context
 
