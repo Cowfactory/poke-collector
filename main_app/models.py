@@ -1,5 +1,6 @@
 from django.conf import settings
 from django.db import models
+from django.urls import reverse
 
 ELEMENT = (
     ('Normal', 'Normal'),
@@ -80,3 +81,4 @@ class CaughtPokemon(models.Model):
             return f"Lvl.{self.level} {self.pokedex_id.name} - {self.trainer_id.username}'s {self.nickname}"
         else:
             return f"Lvl.{self.level} {self.pokedex_id.name} - {self.trainer_id.username}"
+

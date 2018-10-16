@@ -2,8 +2,16 @@
 
 {% block content %}
     <h1>Admin Debug Menu:</h1>
-    <p><a href="/pokemon/create">Catch a Pokemon</a></p>
-    <p><a href="/pokemon">View all Pokemon</a></p>
+    <h5>Maps Views</h5>
+    <p><a href="#">Maps(unf)</a></p>
+    
+    <h5>CaughtPokemon Views</h5>
+    <p><a href="{% url 'caughtPokemons_index' %}">View all caught Pokemon</a></p>
+    <p><a href="{% url 'caughtPokemons_create' %}">Catch a Pokemon</a></p>
+
+    <h5>Pokebox Views</h5>
+    <p><a href="{% url 'pokebox_index' %}">View user pokebox list</a></p>
+    <p><a href="{% url 'pokebox_detail' user.id %}">View my Pokemon in my Pokebox</a></p>
 
 
 {% endblock %}
