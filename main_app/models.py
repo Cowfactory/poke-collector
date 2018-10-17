@@ -4,6 +4,11 @@ from django.db import models
 from django.db.models.signals import post_save
 from django.dispatch import receiver
 from django.contrib.auth.models import User
+from random import seed
+from random import randint
+
+# Seed random number generator
+seed(1)
 
 ELEMENT = (
     ('Normal', 'Normal'),
@@ -123,11 +128,28 @@ class CaughtPokemon(models.Model):
 
 class PokeField(models.Model):
     name = models.CharField(max_length=30)
-    pokemon_list = models.ManyToManyField('PokedexPokemon')
-
+    pokeMap = models.ManyToManyField('PokedexPokemon', through='PokemonList') #more accurately ref to maps table (or the intermediate table)
 
     def __str__(self):
         return self.name
 
-    def getRandPokemon(self):
-        return None
+class PokemonList(models.Model):
+    pokeField = models.ForeignKey(
+        'PokeField',
+        on_delete = models.CASCADE
+    )
+    pokedexPokemon = models.ForeignKey(        
+        'PokedexPokemon',
+        on_delete = models.CASCADE
+    )
+
+    def getRandPokemon(self, map_id):
+        pokeListObjs = self.objects.filter(pokeField=map_id)
+        # for pokeObj in pokeListObjs:
+        #     print(pokeObj.pokedexPokemon.name)
+        randIdx = randint(0, len(pokeListObjs)-1)
+        randPokemon = pokeListObjs[randIdx].pokedexPokemon
+        return randPokemon
+
+    def __str__(self):
+        return f"{self.pokedexPokemon.name} on {self.pokeField}"

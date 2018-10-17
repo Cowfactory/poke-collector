@@ -1,4 +1,4 @@
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 from django.http import HttpResponseRedirect
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.forms import UserCreationForm
@@ -8,7 +8,7 @@ from django.utils.decorators import method_decorator
 from django.views.generic.edit import CreateView, UpdateView, DeleteView
 from django.views.generic import ListView, DetailView
 from .forms import LoginForm
-from .models import Profile, PokedexPokemon, CaughtPokemon, PokeField
+from .models import Profile, PokedexPokemon, CaughtPokemon, PokeField, PokemonList
 
 def debug(request):
     return render(request, 'debug.html')
@@ -83,8 +83,8 @@ def maps_index(request):
 
 @login_required
 def maps_detail(request, map_id):
-
-    return render(request, 'maps/detail.html')
+    pokemon = PokemonList.getRandPokemon(PokemonList, map_id)
+    return render(request, 'maps/detail.html', {'pokemon': pokemon})
 
 
 

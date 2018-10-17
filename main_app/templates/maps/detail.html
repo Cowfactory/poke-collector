@@ -1,1 +1,10 @@
 <!-- maps/detail.html -->
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="row">
+    <h5>Found Pokemon:</h5>
+    <p>{{ pokemon }}</p>
+    {% include 'pokemon_detail.html' %}
+</div>
+{% endblock %}
