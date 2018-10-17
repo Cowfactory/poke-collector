@@ -5,4 +5,5 @@ from .models import *
 admin.site.register(PokedexPokemon)
 admin.site.register(CaughtPokemon)
 admin.site.register(Profile)
+admin.site.register(PokeField)
 

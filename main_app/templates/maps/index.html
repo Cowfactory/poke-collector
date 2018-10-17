@@ -2,95 +2,22 @@
 {% extends 'base.html' %}
 
 {% block content %}
-    <div class="row">
-        <div class="col m4 s12">
-            <div class="card">
-                <div class="card-image">
-                    <img src="https://www.w3schools.com/w3css/img_lights.jpg">
-                    <span class="card-title">Tranquil Fields</span>
-                </div>
-                <div class="card-content">
-                    <p>text</p>
-                </div>
-                <div class="card-action">
-                    <a href="{% url 'maps_detail' 1 %}">Search for Pokemon!</a>
-                </div>
+<div class="row">
+{% for pokefield in pokefields %}
+    <div class="col m4 s12">
+        <div class="card">
+            <div class="card-image">
+                <img src="https://www.w3schools.com/w3css/img_lights.jpg">
+                <span class="card-title">{{ pokefield.name }}</span>
             </div>
-        </div>
-        
-        <div class="col m4 s12">
-            <div class="card">
-                <div class="card-image">
-                    <img src="https://www.w3schools.com/w3css/img_lights.jpg">
-                    <span class="card-title">Shaded Forest</span>
-                </div>
-                <div class="card-content">
-                    <p>text</p>
-                </div>
-                <div class="card-action">
-                    <a href="{% url 'maps_detail' 1 %}">Search for Pokemon!</a>
-                </div>
+            <div class="card-content">
+                <p>text</p>
             </div>
-        </div>
-
-        <div class="col m4 s12">
-            <div class="card">
-                <div class="card-image">
-                    <img src="https://www.w3schools.com/w3css/img_lights.jpg">
-                    <span class="card-title">Spellbinding Cove</span>
-                </div>
-                <div class="card-content">
-                    <p>text</p>
-                </div>
-                <div class="card-action">
-                    <a href="{% url 'maps_detail' 2 %}">Search for Pokemon!</a>
-                </div>
-            </div>
-        </div>
-
-        <div class="col m4 s12">
-            <div class="card">
-                <div class="card-image">
-                    <img src="https://www.w3schools.com/w3css/img_lights.jpg">
-                    <span class="card-title">Subterranean Cavern</span>
-                </div>
-                <div class="card-content">
-                    <p>text</p>
-                </div>
-                <div class="card-action">
-                    <a href="{% url 'maps_detail' 2 %}">Search for Pokemon!</a>
-                </div>
-            </div>
-        </div>
-
-        <div class="col m4 s12">
-            <div class="card">
-                <div class="card-image">
-                    <img src="https://www.w3schools.com/w3css/img_lights.jpg">
-                    <span class="card-title">Wild Prairie</span>
-                </div>
-                <div class="card-content">
-                    <p>text</p>
-                </div>
-                <div class="card-action">
-                    <a href="{% url 'maps_detail' 2 %}">Search for Pokemon!</a>
-                </div>
-            </div>
-        </div>
-
-        <div class="col m4 s12">
-            <div class="card">
-                <div class="card-image">
-                    <img src="https://www.w3schools.com/w3css/img_lights.jpg">
-                    <span class="card-title">Victory Road</span>
-                </div>
-                <div class="card-content">
-                    <p>text</p>
-                </div>
-                <div class="card-action">
-                    <a href="{% url 'maps_detail' 3 %}">Search for Pokemon!</a>
-                </div>
+            <div class="card-action">
+                <a href="{% url 'maps_detail' pokefield.id %}">Search for Pokemon!</a>
             </div>
         </div>
     </div>
+{% endfor %}
+</div>
 {% endblock %}

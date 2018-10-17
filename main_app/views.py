@@ -8,7 +8,7 @@ from django.utils.decorators import method_decorator
 from django.views.generic.edit import CreateView, UpdateView, DeleteView
 from django.views.generic import ListView, DetailView
 from .forms import LoginForm
-from .models import Profile, PokedexPokemon, CaughtPokemon
+from .models import Profile, PokedexPokemon, CaughtPokemon, PokeField
 
 def debug(request):
     return render(request, 'debug.html')
@@ -78,7 +78,8 @@ def profiles_detail(request, pk):
 
 ## Maps Views
 def maps_index(request):
-    return render(request, 'maps/index.html')
+    poke_fields_list = PokeField.objects.all()
+    return render(request, 'maps/index.html', {"pokefields": poke_fields_list})
 
 @login_required
 def maps_detail(request, map_id):
