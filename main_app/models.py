@@ -1,4 +1,5 @@
 from django.conf import settings
+from django.urls import reverse
 from django.db import models
 from django.db.models.signals import post_save
 from django.dispatch import receiver
@@ -46,6 +47,9 @@ class Profile(models.Model): #extended user model
 
     def __str__(self):
         return f"{self.user}'s profile"
+
+    def get_absolute_url(self):
+        return reverse('profiles_detail', kwargs={'pk': self.user.id})
 
 # receivers to create/delete a Profile for every User
 @receiver(post_save, sender=User)

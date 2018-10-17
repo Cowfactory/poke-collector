@@ -2,8 +2,7 @@
 
 {% block content %}
     <h2>{{ profile }}</h2>
-    <a>Update Profile</a>
+    <a href="{% url 'profiles_update' profile.id %}">Update Profile</a>
     <h5>Bio: {{ profile.bio }}</h5>
     <h5>Location: {{ profile.location }}</h5>
-
 {% endblock %}

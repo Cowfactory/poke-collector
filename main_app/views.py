@@ -58,6 +58,13 @@ def signup(request):
     return render(request, 'signup.html', {'form': form, 'err': errMsg})
 
 ## Profiles Views
+class ProfileUpdate(UpdateView):
+    model = Profile
+    # fields = '__all__'
+    fields = ['bio', 'location']        
+    # user = forms.CharField(disabled=True)
+    # exclude = ['user']
+
 @login_required
 def profiles_index(request):
     profiles = Profile.objects.order_by('user')
@@ -112,17 +119,17 @@ class PokeboxList(ListView):
 @login_required
 def pokebox_detail(request, pk):
     pokemons = CaughtPokemon.objects.filter(trainer=pk)
-    print(pokemons)
     return render(request, 'pokebox/detail.html', {'caughtPokemons': pokemons})
 
 
 
 ## Pokedex View
-def pokedex(request):
-    return render(request, 'pokedex.html', {'pokedex': PokedexPokemon.objects.all()})
+def pokedex_index(request):
+    return render(request, 'pokedex/index.html', {'pokedex': PokedexPokemon.objects.all()})
 
-def pokedex_detail(request):
-    return render(request, 'index.html')
+def pokedex_detail(request, pk):
+    pokedex_pokemon = PokedexPokemon.objects.get(id=pk)
+    return render(request, 'pokedex/detail.html', {'pokemon': pokedex_pokemon})
 
 ## Leaderboard View
 def leaderboard(request):

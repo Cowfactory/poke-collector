@@ -1,11 +1,10 @@
+<!-- pokebox/index.html -->
 {% extends 'base.html' %}
 
 {% block content %}
-<h1>Pokebox List</h1>
-
-{% for profile in profiles %}
+    <h1>Pokebox List</h1>
+    {% for profile in profiles %}
     <h5><a href="{% url 'pokebox_detail' profile.id %}">{{ profile }}'s pokebox</a></h5>
-    
-{% endfor %}
-
+        
+    {% endfor %}
 {% endblock %}

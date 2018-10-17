@@ -1,8 +1,9 @@
+<!-- pokedex/index.html -->
 {% extends 'base.html' %}
 
 {% block content %}
     <div class="narrow">
-        <h1>Pokedex</h1>
+    <h1>Pokedex</h1>
         {% for pokemon in pokedex %}
         <div class="row">
             <div class="card horizontal">
@@ -13,12 +14,10 @@
                         <h2 class="grey-text text-darken-3">{{ pokemon.name }}</h2>
                         <p class="black-text">ID: {{ pokemon.identifier }} | Type: {{pokemon.type1 }} {{pokemon.type2}} </p>
                         <div class="card-action">
-                            <a href="#">This is a link</a>
+                            <a href="{% url 'pokedex_detail' pokemon.id %}">This is a link</a>
                         </div>  
                 </div>
         </div>
         {% endfor %}
     </div>
-    
-    
 {% endblock %}
