@@ -4,6 +4,7 @@ from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.models import User
 from django.contrib.auth.decorators import login_required
+from django.utils.decorators import method_decorator
 from django.views.generic.edit import CreateView, UpdateView, DeleteView
 from django.views.generic import ListView, DetailView
 from .forms import LoginForm
@@ -79,7 +80,9 @@ def profiles_detail(request, pk):
 def maps_index(request):
     return render(request, 'maps/index.html')
 
-def maps_detail(request):
+@login_required
+def maps_detail(request, map_id):
+
     return render(request, 'maps/detail.html')
 
 
@@ -95,6 +98,7 @@ class CaughtPokemonCreate(CreateView):
         return HttpResponseRedirect('/')
 
 ## Pokebox Views
+@method_decorator(login_required, name='dispatch')
 class PokeboxList(ListView):
         model = Profile
         context_object_name = 'profiles'

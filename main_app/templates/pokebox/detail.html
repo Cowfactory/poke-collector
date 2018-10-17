@@ -2,8 +2,9 @@
 {% extends 'base.html' %}
 
 {% block content %}
-    <h5>pokebox</h5>
     <div class="row">
+        <h5> {{ user }}'s Pokébox</h5>
+        <p><a href="{% url 'pokebox_index' %}">View other Pokéboxes</a></p>
         {% for pokemon in caughtPokemons %}
         <div class="col l3 m6 s12">
             <div class="card">

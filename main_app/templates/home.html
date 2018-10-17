@@ -45,7 +45,11 @@
                     I am convenient because I require little markup to use effectively.</p>
                 </div>
                 <div class="card-action">
-                    <a href="{% url 'pokebox_index' %}">Pokebox</a>
+                    {% if user.is_authenticated %}
+                        <a href="{% url 'pokebox_detail' user.id %}">Pokebox</a>
+                    {% else %}
+                        <a href="{% url 'pokebox_index' %}">Pokebox</a>
+                    {% endif %}
                 </div>
             </div>
         </div>

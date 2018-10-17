@@ -120,3 +120,14 @@ class CaughtPokemon(models.Model):
             return f"Lvl.{self.level} {self.pokedex.name} - {self.trainer.user}'s {self.nickname}"
         else:
             return f"Lvl.{self.level} {self.pokedex.name} - {self.trainer.user}"
+
+class PokeField(models.Model):
+    name = models.CharField(max_length=30)
+    pokemon_list = models.ManyToManyField('PokedexPokemon')
+
+
+    def __str__(self):
+        return self.name
+
+    def getRandPokemon(self):
+        return None
