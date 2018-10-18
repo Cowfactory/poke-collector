@@ -32,6 +32,11 @@ GENDER = (
     ('♀', '♀'),
     ('', ''),
 )
+IMAGES = (
+    (1, 'Original Suigomoto'),
+    (2, 'Early Art'),
+    (3, 'Early JP Art'),
+)
 
 # Create your models here.
 class Profile(models.Model): #extended user model
@@ -131,6 +136,9 @@ class CaughtPokemon(models.Model):
     capture_date = models.DateField(
         # editable = False,
     )
+    preferred_art = models.IntegerField(
+        choices = IMAGES,
+    )
 
     def __str__(self):
         if self.nickname == None:
@@ -166,10 +174,11 @@ class PokemonList(models.Model):
         return randPokemon
 
     def getAppropriateRandLvl(self, pokemon): 
-        if pokemon.evolution_lvl:
-            randLvl = randint(pokemon.min_lvl, pokemon.evolution_lvl-1)
+        print(pokemon.evolution_lvl)
+        if pokemon.evolution_lvl == None:
+            randLvl = randint(int(pokemon.min_lvl), int(pokemon.min_lvl + 20))
         else:
-            randLvl = randint(pokemon.min_lvl, pokemon.min_lvl+15)
+            randLvl = randint(pokemon.min_lvl, pokemon.evolution_lvl-1)
         return randLvl
     
     def getAppropriateGender(self, pokemon):

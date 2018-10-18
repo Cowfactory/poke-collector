@@ -52,7 +52,7 @@ def signup(request):
         if form.is_valid():
             user = form.save()
             login(request, user)
-            return redirect('index')
+            return redirect('home')
         else:
             errMsg = "One or more fields was invalid, please try again"
     
@@ -88,7 +88,11 @@ def maps_detail(request, map_id):
     lvl = PokemonList.getAppropriateRandLvl(PokemonList, pokemon)
     gender = PokemonList.getAppropriateGender(PokemonList, pokemon)
     user_id = request.user.id
-    catch_url = f"/pokebox/{user_id}/create?lvl={str(lvl)}&gender={str(gender)}&pokedex_id={pokemon.id}"
+    if gender:
+        catch_url = f"/pokebox/{user_id}/create?lvl={str(lvl)}&gender={str(gender)}&pokedex_id={pokemon.id}"
+    else:
+        catch_url = f"/pokebox/{user_id}/create?lvl={str(lvl)}&pokedex_id={pokemon.id}"
+
     return render(request, 'maps/detail.html', {'pokemon': pokemon , 'catchable': True, 'catch_url':catch_url, 'gender':gender, 'randLvl':lvl})
 
 def caughtPokemonCreate(request, pk):
@@ -106,7 +110,9 @@ def caughtPokemonCreate(request, pk):
             # saves the form + data to db as a CaughtPokemon
             # pokeForm = form.save()
             form.save()
-            return redirect('/')
+            profile = Profile.objects.get(pk=pk)
+            url = f"/pokebox/{pk}/"
+            return redirect(url, {'profile':profile})
         else:
             errMsg = "One or more fields was invalid, please try again"
     #if user receiving a brand new form
@@ -116,6 +122,7 @@ def caughtPokemonCreate(request, pk):
         'pokedex': my_args.get('pokedex_id'),
         'gender': my_args.get('gender'),
         'level': my_args.get('lvl'),
+        'preferred_art': 1
     })
     # instance=my_kwargs
     return render(request, 'main_app/caughtpokemon_form.html', {'form': form, 'err': errMsg})

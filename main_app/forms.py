@@ -13,11 +13,7 @@ class ProfileForm(ModelForm):
 class PokemonForm(ModelForm):
     class Meta:
         model = CaughtPokemon
-        # fields = ['identifier', 'gender', 'level', 'description', 'capture_date']
         fields = '__all__'
-        widgets = {
-            # 'gender': CheckboxSelectMultiple,
-            # 'capture_date': DateField,
-        }
+        # exclude = ['preferred_img']
 
         

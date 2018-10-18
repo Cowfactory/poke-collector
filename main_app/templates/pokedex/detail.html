@@ -2,31 +2,35 @@
 {% extends 'base.html' %}
 
 {% block content %}
+
     <div class="row">
+        <h4><a href="{% url 'pokedex_index' %}">Back to pokedex</a></h4>
         <div class="col l3 m6 s12">
             <div class="card">
                 <div class="card-image">
                     <img src="{{ pokemon.art_url }}">
-                    <span class="card-title black-text text-darken-3">{{ pokemon.pokedex.name }}</span>
                 </div>
-                <div class="card-content">  
-                    <p>{{ pokemon.description }}</p>
+                <div class="card-content grey lighten-4">  
+                    <h5>{{ pokemon.name }} - {{ pokemon.identifier }}</h5>
+                    {% if pokemon.type2 %}
+                        <p>{{ pokemon.type1 }} {{ pokemon.type2 }}</p>
+                    {% else %}
+                        <p>{{ pokemon.type1 }}</p>
+                    {% endif%}
+
+                    {% if pokemon.evolution_lvl %}
+                        <p>Evolves at Lvl. {{ pokemon.evolution_lvl }}</p>
+                    {% endif%}
                 </div>
-                <div class="card-action">
-                    <p class="grey-text text-darken-3">Suigomoto Art:</p>
-                    <a onclick="changeArt(this, '{{ pokemon.art_url }}' )">Original</a>
-                    <a onclick="changeArt(this, '{{ pokemon.early_art_url }}' )">Early</a>
-                    <a onclick="changeArt(this, '{{ pokemon.early_jp_art_url }}')">JP</a>
+                <div class="card-tabs">
+                    <ul class="tabs tabs-fixed-width">
+                        <li class="tab" onclick="changeArt(this, '{{ pokemon.art_url }}' )"><a>OG</a></li>
+                        <li class="tab" onclick="changeArt(this, '{{ pokemon.early_art_url }}' )"><a>Early</a></li>
+                        <li class="tab" onclick="changeArt(this, '{{ pokemon.early_jp_art_url }}')"><a>JP</a></li>
+                    </ul>
                 </div>
             </div>
         </div>
     </div>
-    <script>
-        function changeArt(clickedNode, url) {
-            // console.log(evt)
-            let img = clickedNode.parentNode.parentNode.children[0].children[0];
-            img.src = url;
-        }
-    </script>
 {% endblock %}
 

@@ -3,8 +3,8 @@
 
 {% block content %}
 <div class="row">
-    <h5>Found Pokemon:</h5>
-    <p>{{ pokemon }}</p>
-    {% include 'pokemon_detail.html' %}
+    <h3>Found A Pokemon!</h3>
+    <p><a href="{% url 'maps_index' %}">Go back to maps list</a></p>
+    {% include 'maps/catchable_pokemon_detail.html' %}
 </div>
 {% endblock %}

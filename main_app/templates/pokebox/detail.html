@@ -3,33 +3,12 @@
 
 {% block content %}
     <div class="row">
-        <h5> {{ user }}'s Pokébox</h5>
-        <p><a href="{% url 'pokebox_index' %}">View other Pokéboxes</a></p>
         {% for pokemon in caughtPokemons %}
-        <div class="col l3 m6 s12">
-            <div class="card">
-                <div class="card-image">
-                    <img src="{{ pokemon.pokedex.art_url }}">
-                    <span class="card-title black-text text-darken-3">{{ pokemon.pokedex.name }}</span>
-                </div>
-                <div class="card-content">  
-                    <p>{{ pokemon.description }}</p>
-                </div>
-                <div class="card-action">
-                    <p class="grey-text text-darken-3">Suigomoto Art:</p>
-                    <a onclick="changeArt(this, '{{ pokemon.art_url }}' )">Original</a>
-                    <a onclick="changeArt(this, '{{ pokemon.early_art_url }}' )">Early</a>
-                    <a onclick="changeArt(this, '{{ pokemon.early_jp_art_url }}')">JP</a>
-                </div>
-            </div>
-        </div>
+            {% include 'pokebox/caught_pokemon_detail.html' %}
+
+        {% empty %}
+            <h3>No Pokemon Caught Yet!</h3>
+            <h5><a href="{% url 'maps_index' %}">Hunt for pokemon</a></h5>
         {% endfor %}
     </div>
-    <script>
-        function changeArt(clickedNode, url) {
-            // console.log(evt)
-            let img = clickedNode.parentNode.parentNode.children[0].children[0];
-            img.src = url;
-        }
-    </script>
 {% endblock %}

@@ -1,5 +1,4 @@
 {% block content %}
-{% load materializecss %}
 <div class="col m3">
     <div class="card">
         <div class="card-image">
@@ -15,7 +14,7 @@
             </ul>
         </div>
         <div class="card-content grey lighten-4">
-            <p>{{ pokemon.name }} {{ pokemon.identifier }}<p>
+            <h5 class=>{{ pokemon.name }} {{ pokemon.identifier }}</h5>
             <span class="poke-Type">{{ pokemon.type1 }}</span>
             {% if pokemon.type2 %} 
                 <span class="poke-Type">{{ pokemon.type2 }}</span>
