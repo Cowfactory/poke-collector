@@ -28,9 +28,9 @@ ELEMENT = (
     ('Dragon', 'Dragon'),
 )
 GENDER = (
-    ('M', '♂'),
-    ('F', '♀'),
-    ('O', ''),
+    ('♂', '♂'),
+    ('♀', '♀'),
+    ('', ''),
 )
 
 # Create your models here.
@@ -99,10 +99,12 @@ class PokedexPokemon(models.Model):
 class CaughtPokemon(models.Model):
     trainer = models.ForeignKey(
         'Profile',
+        # editable = False,
         on_delete = models.CASCADE
     )
     pokedex = models.ForeignKey(
         'PokedexPokemon',
+        # editable = False,
         on_delete = models.CASCADE
     )
     gender = models.CharField(
@@ -116,13 +118,19 @@ class CaughtPokemon(models.Model):
         blank = True,
         null = True,
     )
-    level = models.IntegerField()
+    level = models.IntegerField(
+        # editable = False,
+        blank = True,
+        null = True
+    )
     description = models.CharField(
         max_length=200,
         blank = True,
         null = True,
     )
-    capture_date = models.DateField()
+    capture_date = models.DateField(
+        # editable = False,
+    )
 
     def __str__(self):
         if self.nickname == None:

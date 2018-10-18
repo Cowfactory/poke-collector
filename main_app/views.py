@@ -88,13 +88,14 @@ def maps_detail(request, map_id):
     lvl = PokemonList.getAppropriateRandLvl(PokemonList, pokemon)
     gender = PokemonList.getAppropriateGender(PokemonList, pokemon)
     user_id = request.user.id
-    catch_url = f"/pokebox/{user_id}/create?lvl={str(lvl)}&gender={str(gender)}"
+    catch_url = f"/pokebox/{user_id}/create?lvl={str(lvl)}&gender={str(gender)}&pokedex_id={pokemon.id}"
     return render(request, 'maps/detail.html', {'pokemon': pokemon , 'catchable': True, 'catch_url':catch_url, 'gender':gender, 'randLvl':lvl})
 
 def caughtPokemonCreate(request, pk):
-    my_kwargs = {
+    my_args = {
         'lvl': request.GET.get('lvl'),
-        'gender': request.GET.get('gender')
+        'gender': request.GET.get('gender'),
+        'pokedex_id': request.GET.get('pokedex_id'),
     }
 
     errMsg = ""
@@ -109,7 +110,13 @@ def caughtPokemonCreate(request, pk):
         else:
             errMsg = "One or more fields was invalid, please try again"
     #if user receiving a brand new form
-    form = PokemonForm()
+    print(my_args.get('pokedex_id'))
+    form = PokemonForm(initial = {
+        'trainer': pk, 
+        'pokedex': my_args.get('pokedex_id'),
+        'gender': my_args.get('gender'),
+        'level': my_args.get('lvl'),
+    })
     # instance=my_kwargs
     return render(request, 'main_app/caughtpokemon_form.html', {'form': form, 'err': errMsg})
 
