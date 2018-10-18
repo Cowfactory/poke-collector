@@ -8,15 +8,30 @@
             <div id="img3"><img src="{{ pokemon.early_jp_art_url }}"></div>
         </div>
         <div class="card-tabs">
-          <ul class="tabs tabs-fixed-width">
-            <li class="tab"><a class="active" href="#img1">OG</a></li>
-            <li class="tab"><a href="#img2">Early</a></li>
-            <li class="tab"><a href="#img3">JP</a></li>
-          </ul>
+            <ul class="tabs tabs-fixed-width">
+                <li class="tab"><a class="active" href="#img1">OG</a></li>
+                <li class="tab"><a href="#img2">Early</a></li>
+                <li class="tab"><a href="#img3">JP</a></li>
+            </ul>
         </div>
         <div class="card-content grey lighten-4">
-          <div>Test 1</div>
+            <p>{{ pokemon.name }} {{ pokemon.identifier }}<p>
+            <span class="poke-Type">{{ pokemon.type1 }}</span>
+            {% if pokemon.type2 %} 
+                <span class="poke-Type">{{ pokemon.type2 }}</span>
+            {% endif %}
+            {% if randLvl %}
+                <p>Lvl: {{ randLvl }}</p>
+            {% endif %}
+            {% if gender %}
+                <p>Gender: {{ gender }}</p>
+            {% endif %}
         </div>
+        {% if catchable %}
+        <div class="card-action">
+            <a href="{{ catch_url }}">Catch this pokemon!</a>
+        </div>
+        {% endif %}
     </div>
 </div>
 {% endblock %}

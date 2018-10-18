@@ -7,8 +7,9 @@ from django.contrib.auth.decorators import login_required
 from django.utils.decorators import method_decorator
 from django.views.generic.edit import CreateView, UpdateView, DeleteView
 from django.views.generic import ListView, DetailView
-from .forms import LoginForm
+from .forms import LoginForm, PokemonForm
 from .models import Profile, PokedexPokemon, CaughtPokemon, PokeField, PokemonList
+import urllib.parse
 
 def debug(request):
     return render(request, 'debug.html')
@@ -84,42 +85,43 @@ def maps_index(request):
 @login_required
 def maps_detail(request, map_id):
     pokemon = PokemonList.getRandPokemon(PokemonList, map_id)
-    return render(request, 'maps/detail.html', {'pokemon': pokemon})
+    lvl = PokemonList.getAppropriateRandLvl(PokemonList, pokemon)
+    gender = PokemonList.getAppropriateGender(PokemonList, pokemon)
+    user_id = request.user.id
+    catch_url = f"/pokebox/{user_id}/create?lvl={str(lvl)}&gender={str(gender)}"
+    return render(request, 'maps/detail.html', {'pokemon': pokemon , 'catchable': True, 'catch_url':catch_url, 'gender':gender, 'randLvl':lvl})
+
+def caughtPokemonCreate(request, pk):
+    my_kwargs = {
+        'lvl': request.GET.get('lvl'),
+        'gender': request.GET.get('gender')
+    }
+
+    errMsg = ""
+    #if user submitting form
+    if request.method == 'POST': 
+        form = PokemonForm(request.POST)
+        if form.is_valid():
+            # saves the form + data to db as a CaughtPokemon
+            # pokeForm = form.save()
+            form.save()
+            return redirect('/')
+        else:
+            errMsg = "One or more fields was invalid, please try again"
+    #if user receiving a brand new form
+    form = PokemonForm()
+    # instance=my_kwargs
+    return render(request, 'main_app/caughtpokemon_form.html', {'form': form, 'err': errMsg})
 
 
-
-class CaughtPokemonCreate(CreateView):
-    model = CaughtPokemon
-    fields = '__all__'
-
-    def form_valid(self, form):
-        self.object = form.save(commit=False)
-        self.object.user = self.request.user
-        self.object.save()
-        return HttpResponseRedirect('/')
 
 ## Pokebox Views
 @method_decorator(login_required, name='dispatch')
 class PokeboxList(ListView):
-        model = Profile
-        context_object_name = 'profiles'
-        template_name = 'pokebox/index.html'
+    model = Profile
+    context_object_name = 'profiles'
+    template_name = 'pokebox/index.html'
 
-        # def get_context_data(self, **kwargs):
-        #     # Call the base implementation first to get a context
-        #     context = super().get_context_data(**kwargs)
-        #     # Add in a QuerySet of all the Pokebox belonging to the user
-        #     thing = []
-        #     for user in User.objects.all():
-        #         thing.append())
-
-        #     all_pokemon = CaughtPokemon.objects.all()
-        #     for pokemon in all_pokemon:
-        #         thing[pokemon.trainer_id] 
-
-        #     context['user'] =
-        
-        #     return context
 
 @login_required
 def pokebox_detail(request, pk):

@@ -17,5 +17,7 @@ class PokemonForm(ModelForm):
         fields = '__all__'
         widgets = {
             'gender': CheckboxSelectMultiple,
-            'capture_date': DateField,
+            # 'capture_date': DateField,
         }
+
+        

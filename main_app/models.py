@@ -28,9 +28,9 @@ ELEMENT = (
     ('Dragon', 'Dragon'),
 )
 GENDER = (
-    ('M', 'Male'),
-    ('F', 'Female'),
-    ('O', 'Other'),
+    ('M', '♂'),
+    ('F', '♀'),
+    ('O', ''),
 )
 
 # Create your models here.
@@ -81,7 +81,11 @@ class PokedexPokemon(models.Model):
         null = True,
         choices = ELEMENT,
     )
-    # evolution_lvl = models.IntegerField()
+    min_lvl = models.IntegerField()
+    evolution_lvl = models.IntegerField(
+        blank = True,
+        null = True,
+    )
     # moveset = models.CharField(max_length=10) #Fix this later to be a real move set
     art_url = models.CharField(max_length=200)
     early_art_url = models.CharField(max_length=200)
@@ -102,7 +106,7 @@ class CaughtPokemon(models.Model):
         on_delete = models.CASCADE
     )
     gender = models.CharField(
-        max_length = 6,
+        max_length = 1,
         choices = GENDER,
         blank = True,
         null = True,
@@ -147,9 +151,40 @@ class PokemonList(models.Model):
         pokeListObjs = self.objects.filter(pokeField=map_id)
         # for pokeObj in pokeListObjs:
         #     print(pokeObj.pokedexPokemon.name)
-        randIdx = randint(0, len(pokeListObjs)-1)
+        randIdx = randint(0, len(pokeListObjs)-1) 
+        # random pokemon from the list of avail pokemon in this map
         randPokemon = pokeListObjs[randIdx].pokedexPokemon
+        # level = 
         return randPokemon
 
+    def getAppropriateRandLvl(self, pokemon): 
+        if pokemon.evolution_lvl:
+            randLvl = randint(pokemon.min_lvl, pokemon.evolution_lvl-1)
+        else:
+            randLvl = randint(pokemon.min_lvl, pokemon.min_lvl+15)
+        return randLvl
+    
+    def getAppropriateGender(self, pokemon):
+        pid = pokemon.identifier
+        if (pid == "#029" or pid == "#030" or pid == "#031" or #nidorina family
+            pid == "#113" or pid =="#115" or #chancey and khangaskhan
+            pid == "#124"
+           ):
+            return "♀"
+        elif pid == "#032" or pid == "#033" or pid == "#034": #nidorino family
+            return "♂"
+        elif (pid == "#081" or pid == "#082" or #mangnemite family
+              pid == "#100" or pid == "#101" or #voltorb family
+              pid == "#120" or pid == "#121" or #staryu family
+              pid == "#132" or pid == "#137" or #ditto porygon
+              pid == "#144" or pid == "#145" or pid == "#146" or #legendary birds
+              pid == "#150" or pid == "#151" #mewtwo mew
+             ):
+            return None
+        rand = randint(0,1)
+        if rand == 0:
+            return "♀"
+        else: 
+            return "♂"
     def __str__(self):
         return f"{self.pokedexPokemon.name} on {self.pokeField}"

@@ -25,7 +25,7 @@ urlpatterns = [
     path('pokebox/', views.PokeboxList.as_view(), name='pokebox_index'),
     path('pokebox/<int:pk>/', views.pokebox_detail, name='pokebox_detail'),
     # path('pokebox/<int:pk>/<int:pk>', views.PokeboxDetail.as_view(), name='single pokemon'),
-    path('pokebox/<int:pk>/create/', views.CaughtPokemonCreate.as_view(), name='caughtPokemon_create'),
+    path('pokebox/<int:pk>/create/', views.caughtPokemonCreate, name='caughtPokemon_create'),
     
     # Pokedex
     path('pokedex/', views.pokedex_index, name='pokedex_index'),
