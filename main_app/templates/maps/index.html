@@ -7,11 +7,40 @@
     <div class="col m4 s12">
         <div class="card">
             <div class="card-image">
-                <img src="https://www.w3schools.com/w3css/img_lights.jpg">
+                {% if pokefield.id == 1 %}
+                    <img src="https://cdn.bulbagarden.net/upload/0/01/HGSS_National_Park-Day.png">
+                {% elif pokefield.id == 2 %}
+                    <img src="https://cdn.bulbagarden.net/upload/9/9f/HGSS_Viridian_Forest-Morning.png">
+                {% elif pokefield.id == 3 %}
+                    <img src="https://cdn.bulbagarden.net/upload/b/bc/HGSS_Mt._Moon-Day.png">
+                {% elif pokefield.id == 4 %}
+                    <img src="https://cdn.bulbagarden.net/upload/8/89/HGSS_Whirl_Islands-Night.png">
+                {% elif pokefield.id == 5 %}
+                    <img src="https://cdn.bulbagarden.net/upload/5/5c/FL_Safari_Zone.png">
+                {% elif pokefield.id == 6 %}
+                    <img src="https://cdn.bulbagarden.net/upload/5/5a/HGSS_Victory_Road-Day.png">
+                {% endif %}
+
+                <!-- <img src="https://www.w3schools.com/w3css/img_lights.jpg"> -->
                 <span class="card-title">{{ pokefield.name }}</span>
             </div>
             <div class="card-content">
-                <p>:^)</p>
+                {% if pokefield.id == 1 %}
+                    <p>Low level pokemon can be found here!</p>
+                {% elif pokefield.id == 2 %}
+                    <p>For Bug pokemon enthusiasts and more!</p>
+                {% elif pokefield.id == 3 %}
+                    <p>Caves like this attract not only cave pokemon, but seemingly also pokemon from space..</p>
+                {% elif pokefield.id == 4 %}
+                    <p>Reefs and tide pools with mystical properties</p>
+                {% elif pokefield.id == 5 %}
+                    <p>The great Safari Zone!</p>
+                    <p>-500 steps per entry ticket!-</p>
+                    <p>-No poaching!-</p>
+                    <p>-No exceptions!-</p>
+                {% elif pokefield.id == 6 %}
+                    <p>The Final destination</p>
+                {% endif %}
             </div>
             <div class="card-action">
                 <a href="{% url 'maps_detail' pokefield.id %}">Search for Pokemon!</a>
