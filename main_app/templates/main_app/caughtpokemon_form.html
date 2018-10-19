@@ -9,11 +9,9 @@
         <input type="submit" value="Submit!">
     </form>
     <script>
-        // Manually remove the "select-options" from the dropdown in the "select-dropdown"
+        // Manually remove the ability to change option in dropdown
         window.setTimeout(evil => {
-            let wrapper_nodeList = document.querySelectorAll(".select-wrapper"); //All the dropdowns
-            let usr = document.querySelector('[selected]').textContent; //The user we want to keep in the list
-            
+            let wrapper_nodeList = document.querySelectorAll(".select-wrapper"); //All the dropdowns            
             let trainer = wrapper_nodeList.item(0).childNodes.item(3)
             let pokedex = wrapper_nodeList.item(1).childNodes.item(3)
             
@@ -36,7 +34,6 @@
                 pokedex.removeChild(pokedex.lastChild)
             }
             pokedex.appendChild(thePokemon);
-
         }, 0);
     </script>
 {% endblock %}

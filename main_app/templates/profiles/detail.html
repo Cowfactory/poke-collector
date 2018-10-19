@@ -3,6 +3,17 @@
 {% block content %}
     <h2>{{ profile }}</h2>
     <a href="{% url 'profiles_update' profile.id %}">Update Profile</a>
-    <h5>Bio: {{ profile.bio }}</h5>
-    <h5>Location: {{ profile.location }}</h5>
+    
+    {% if profile.bio %}
+        <h3>Bio: {{ profile.bio }}</h5>
+    {% else %}
+        <h3>No biography set!</h3>
+    {% endif %}
+    
+    {% if profile.location %}
+        <h3>Location: {{ profile.location }}</h3>
+    {% else %}
+        <h3>No location set!</h3>
+    {% endif %}
+
 {% endblock %}
