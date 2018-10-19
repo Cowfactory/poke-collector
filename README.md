@@ -16,6 +16,11 @@ Hosted: https://enigmatic-peak-47303.herokuapp.com/
 
 Trello: https://trello.com/b/2BlptqG3/pokemoncollector
 
+## Screenshots
+### Main Menu:
+![alt text](https://i.imgur.com/fxSJg8M.png)
+### Catching a Pokemon
+![alt text](https://i.imgur.com/5xxCpiR.png)
 
 
 
