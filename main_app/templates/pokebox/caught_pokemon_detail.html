@@ -40,7 +40,9 @@
             {% else %}
                 <p>{{ pokemon.pokedex.type1 }}</p>
             {% endif%}
-
+            {% if owned_by %}
+                <p>Owned by: {{ owned_by }}</p>
+            {% endif %}
             {% if pokemon.description %}
                 <p>"{{ pokemon.description }}"</p>
             {% endif %}
@@ -48,7 +50,7 @@
         </div>
 
         <div class="card-action">
-            <a href="#">Edit Details</a>
+            <a href="{% url 'solo_detail' user.id pokemon.id %}">More Options</a>
         </div>
     </div>
 </div>

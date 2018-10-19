@@ -24,22 +24,15 @@ urlpatterns = [
     # User's Pokemon Box (Pokebox) 
     path('pokebox/', views.PokeboxList.as_view(), name='pokebox_index'),
     path('pokebox/<int:pk>/', views.pokebox_detail, name='pokebox_detail'),
-    # path('pokebox/<int:pk>/<int:pk>', views.PokeboxDetail.as_view(), name='single pokemon'),
     path('pokebox/<int:pk>/create/', views.caughtPokemonCreate, name='caughtPokemon_create'),
+    path('pokebox/<int:user_id>/<int:pokemon_id>/', views.solo_detail, name='solo_detail'),
+    path('pokebox/<int:pk>/<int:pokemon_id>/update/', views.CaughtPokemonUpdate.as_view(), name='caughtPokemon_update'),
+    path('pokebox/<int:pk>/<int:pokemon_id>/delete/', views.CaughtPokemonDelete.as_view(), name='caughtPokemon_delete'),
     
     # Pokedex
     path('pokedex/', views.pokedex_index, name='pokedex_index'),
     path('pokedex/<int:pk>/', views.pokedex_detail, name='pokedex_detail'),
-    
-    # Moves
-    # path('moves/', views.moves_index, name='moves_index'),
-    # path('moves/<int:pk>', views.moves_detail, name='moves_detail'),
 
     # Leaderboard
     path('leaderboard/', views.leaderboard, name='leaderboard'),
 ]
-
-    # Caught Pokemon
-    # path('pokemon/', views.caughtPokemons_index, name='caughtPokemons_index'),
-    # path('pokemon/<int:pk>', views.caughtPokemons_detail, name='caughtPokemons_detail'),
-    # path('pokemon/create/', views.CaughtPokemonCreate.as_view(), name='caughtPokemons_create'),

@@ -1,0 +1,61 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="row">
+    <div class="col l3 m6 s12">
+        <div class="card">
+            <div class="card-image">
+                {% if pokemon.preferred_art == 3 %}
+                    <img src="{{ pokemon.pokedex.early_jp_art_url }}">
+                {% elif pokemon.preferred_art == 2 %}
+                    <img src="{{ pokemon.pokedex.early_art_url }}">
+                {% else %}
+                    <img src="{{ pokemon.pokedex.art_url }}">
+                {% endif %}
+            </div>
+            <div class="card-tabs">
+                <ul class="tabs tabs-fixed-width">
+                    <li class="tab" onclick="changeArt(this, '{{ pokemon.pokedex.art_url }}' )"><a>OG</a></li>
+                    <li class="tab" onclick="changeArt(this, '{{ pokemon.pokedex.early_art_url  }}' )"><a>Early</a></li>
+                    <li class="tab" onclick="changeArt(this, '{{ pokemon.pokedex.early_jp_art_url }}' )"><a>JP</a></li>
+                </ul>
+            </div>
+            <div class="card-content grey lighten-4">  
+                {% if pokemon.nickname %}
+                    {% if pokemon.gender %}
+                        <p class="card-title black-text text-darken-3">{{ pokemon.nickname }} {{ pokemon.gender }}</p>
+                    {% else %}
+                        <p class="card-title black-text text-darken-3">{{ pokemon.pokedex.name }}</p>
+                    {% endif %}
+                {% else %}
+                    {% if pokemon.gender %}
+                        <p class="card-title black-text text-darken-3">{{ pokemon.pokedex.name }} {{ pokemon.gender }}</p>
+                    {% else %}
+                        <p class="card-title black-text text-darken-3">{{ pokemon.pokedex.name }}</p>
+                    {% endif %}
+                {% endif %}
+    
+                <p>Lvl. {{ pokemon.level }}</p>
+    
+                {% if pokemon.pokedex.type2 %}
+                    <p>{{ pokemon.pokedex.type1 }} {{ pokemon.pokedex.type2 }}</p>
+                {% else %}
+                    <p>{{ pokemon.pokedex.type1 }}</p>
+                {% endif%}
+                {% if owned_by %}
+                    <p>Owned by: {{ owned_by }}</p>
+                {% endif %}
+                {% if pokemon.description %}
+                    <p>"{{ pokemon.description }}"</p>
+                {% endif %}
+                
+            </div>
+    
+            <div class="card-action">
+                <a href="{% url 'caughtPokemon_update' trainer_id pokemon.id %}">Edit</a>
+                <a href="{% url 'caughtPokemon_delete' trainer_id pokemon.id %}">Delete</a>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

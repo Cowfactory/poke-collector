@@ -1,0 +1,13 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    <h1>Delete Pokemon</h1>
+
+    <p>Are you sure you want to release this Pokemon: {{ pokemon }}?</p>
+
+    <form action="" method="POST">
+        {% csrf_token %}
+        <input type="submit" value="Yes, delete.">
+        <a href="/">CANCEL</a>
+    </form>
+{% endblock %}

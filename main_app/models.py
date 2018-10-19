@@ -56,7 +56,7 @@ class Profile(models.Model): #extended user model
 
 
     def __str__(self):
-        return f"{self.user}'s profile"
+        return f"User: {self.user}"
 
     def get_absolute_url(self):
         return reverse('profiles_detail', kwargs={'pk': self.user.id})
@@ -100,7 +100,6 @@ class PokedexPokemon(models.Model):
     def __str__(self):
         return f"{self.identifier} {self.name}"
 
-
 class CaughtPokemon(models.Model):
     trainer = models.ForeignKey(
         'Profile',
@@ -142,13 +141,16 @@ class CaughtPokemon(models.Model):
 
     def __str__(self):
         if self.nickname == None:
-            return f"Lvl.{self.level} {self.pokedex.name} - {self.trainer.user}'s {self.nickname}"
+            return f"{self.trainer.user}'s Lvl.{self.level} {self.pokedex.name}"
         else:
-            return f"Lvl.{self.level} {self.pokedex.name} - {self.trainer.user}"
+            return f"{self.trainer.user}'s Lvl.{self.level} {self.pokedex.name} - {self.nickname}"
+
+    def get_absolute_url(self):
+        return f"/pokebox/{self.trainer.id}"
 
 class PokeField(models.Model):
     name = models.CharField(max_length=30)
-    pokeMap = models.ManyToManyField('PokedexPokemon', through='PokemonList') #more accurately ref to maps table (or the intermediate table)
+    pokeMap = models.ManyToManyField(PokedexPokemon, through='PokemonList') #more accurately ref to maps table (or the intermediate table)
 
     def __str__(self):
         return self.name
@@ -174,7 +176,6 @@ class PokemonList(models.Model):
         return randPokemon
 
     def getAppropriateRandLvl(self, pokemon): 
-        print(pokemon.evolution_lvl)
         if pokemon.evolution_lvl == None:
             randLvl = randint(int(pokemon.min_lvl), int(pokemon.min_lvl + 20))
         else:

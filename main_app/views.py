@@ -62,10 +62,7 @@ def signup(request):
 ## Profiles Views
 class ProfileUpdate(UpdateView):
     model = Profile
-    # fields = '__all__'
     fields = ['bio', 'location']        
-    # user = forms.CharField(disabled=True)
-    # exclude = ['user']
 
 @login_required
 def profiles_index(request):
@@ -88,15 +85,16 @@ def maps_detail(request, map_id):
     lvl = PokemonList.getAppropriateRandLvl(PokemonList, pokemon)
     gender = PokemonList.getAppropriateGender(PokemonList, pokemon)
     user_id = request.user.id
+    print(pokemon.id)
     if gender:
         catch_url = f"/pokebox/{user_id}/create?lvl={str(lvl)}&gender={str(gender)}&pokedex_id={pokemon.id}"
     else:
         catch_url = f"/pokebox/{user_id}/create?lvl={str(lvl)}&pokedex_id={pokemon.id}"
 
-    return render(request, 'maps/detail.html', {'pokemon': pokemon , 'catchable': True, 'catch_url':catch_url, 'gender':gender, 'randLvl':lvl})
+    return render(request, 'maps/detail.html', {'pokemon': pokemon, 'gender': gender, 'randLvl': lvl, 'catch_url': catch_url})
 
 def caughtPokemonCreate(request, pk):
-    my_args = {
+    my_kwargs = {
         'lvl': request.GET.get('lvl'),
         'gender': request.GET.get('gender'),
         'pokedex_id': request.GET.get('pokedex_id'),
@@ -112,19 +110,17 @@ def caughtPokemonCreate(request, pk):
             form.save()
             profile = Profile.objects.get(pk=pk)
             url = f"/pokebox/{pk}/"
-            return redirect(url, {'profile':profile})
+            return redirect(url, {'profile': profile})
         else:
             errMsg = "One or more fields was invalid, please try again"
     #if user receiving a brand new form
-    print(my_args.get('pokedex_id'))
     form = PokemonForm(initial = {
         'trainer': pk, 
-        'pokedex': my_args.get('pokedex_id'),
-        'gender': my_args.get('gender'),
-        'level': my_args.get('lvl'),
+        'pokedex': my_kwargs.get('pokedex_id'),
+        'gender': my_kwargs.get('gender'),
+        'level': my_kwargs.get('lvl'),
         'preferred_art': 1
     })
-    # instance=my_kwargs
     return render(request, 'main_app/caughtpokemon_form.html', {'form': form, 'err': errMsg})
 
 
@@ -142,7 +138,30 @@ def pokebox_detail(request, pk):
     pokemons = CaughtPokemon.objects.filter(trainer=pk)
     return render(request, 'pokebox/detail.html', {'caughtPokemons': pokemons})
 
+@login_required
+def solo_detail(request, user_id, pokemon_id):
+    pokemon = CaughtPokemon.objects.get(id = pokemon_id)
+    print(f"poke id: {pokemon_id} | user id {user_id}")
+    # print(pokemon)
+    trainer = pokemon.trainer 
+    print(f"poke id: {pokemon.id} | {pokemon} | {trainer}")
+    return render(request, 'pokebox/solo_detail.html', {'pokemon': pokemon, 'trainer_id': trainer.id})
 
+@method_decorator(login_required, name='dispatch')
+class CaughtPokemonUpdate(UpdateView):
+    model = CaughtPokemon
+    fields = ['gender', 'nickname', 'description', 'preferred_art']
+    pk_url_kwarg = 'pokemon_id' 
+# def caughtPokemon_Update(request, user_id, pokemon_id):
+#     form = PokemonForm(request.POST)
+
+
+@method_decorator(login_required, name='dispatch')
+class CaughtPokemonDelete(DeleteView):
+    model = CaughtPokemon
+    # url = f"/pokebox/{pk}"
+    pk_url_kwarg = 'pokemon_id' 
+    success_url = "/"
 
 ## Pokedex View
 def pokedex_index(request):
@@ -155,15 +174,3 @@ def pokedex_detail(request, pk):
 ## Leaderboard View
 def leaderboard(request):
     return render(request, 'index.html')
-
-
-## Caught Pokemon Views
-# @login_required
-# def caughtPokemons_index(request):
-#     pokemons = CaughtPokemon.objects.all()
-#     return render(request, 'pokemon/index.html', {'pokemons': pokemons})
-
-# @login_required
-# def caughtPokemons_detail(request, pk):
-#     pokemon = CaughtPokemon.objects.get(pk=pk)
-#     return render(request, 'pokemon/detail.html', {'pokemon': pokemon})
