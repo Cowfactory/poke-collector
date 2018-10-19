@@ -11,29 +11,57 @@
     <script>
         // Manually remove the ability to change option in dropdown
         window.setTimeout(evil => {
-            let wrapper_nodeList = document.querySelectorAll(".select-wrapper"); //All the dropdowns            
-            let trainer = wrapper_nodeList.item(0).childNodes.item(3)
-            let pokedex = wrapper_nodeList.item(1).childNodes.item(3)
+            let wrapper_nodeList = document.querySelectorAll(".select-wrapper"); //All the dropdowns  
+            let trainer = document.querySelectorAll('[selected]').item(0);
+            let pokedex = document.querySelectorAll('[selected]').item(1);
+             
+            let trainerOption = wrapper_nodeList.item(0).childNodes.item(3)
+            let pokedexOption = wrapper_nodeList.item(1).childNodes.item(3)
             
+            //remove wrong options functionality (option)
             let theTrainer;
-            for(item of trainer) {
+            for(item of trainerOption) {
                 if(item.hasAttribute('selected')) 
                     theTrainer = item;
             }
-            while(trainer.hasChildNodes()) {
-                trainer.removeChild(trainer.lastChild)
+            while(trainerOption.hasChildNodes()) {
+                trainerOption.removeChild(trainerOption.lastChild)
             }
-            trainer.appendChild(theTrainer);
+            trainerOption.appendChild(theTrainer);
 
             let thePokemon;
-            for(item of pokedex) {
+            for(item of pokedexOption) {
                 if(item.hasAttribute('selected'))
                     thePokemon = item;
             }
-            while(pokedex.hasChildNodes()) {
-                pokedex.removeChild(pokedex.lastChild)
+            while(pokedexOption.hasChildNodes()) {
+                pokedexOption.removeChild(pokedexOption.lastChild)
             }
-            pokedex.appendChild(thePokemon);
+            pokedexOption.appendChild(thePokemon);
+
+            //remove remaining wrong options husk (dropdown item)
+            let trainerMenu = wrapper_nodeList.item(0).childNodes.item(1)
+            let pokemonMenu = wrapper_nodeList.item(1).childNodes.item(1)
+
+            for(item of trainerMenu.childNodes) {
+                if(item.classList.contains('selected')) {
+                    theTrainer = item;
+                }
+            }
+            while(trainerMenu.hasChildNodes()) {
+                trainerMenu.removeChild(trainerMenu.lastChild)
+            }
+            trainerMenu.appendChild(theTrainer);
+
+            for(item of pokemonMenu.childNodes) {
+                if(item.classList.contains('selected')) 
+                    thePokemon = item;
+            }
+            while(pokemonMenu.hasChildNodes()) {
+                pokemonMenu.removeChild(pokemonMenu.lastChild)
+            }
+            pokemonMenu.appendChild(thePokemon);
+
         }, 0);
     </script>
 {% endblock %}

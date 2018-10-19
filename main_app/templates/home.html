@@ -10,8 +10,7 @@
                     <span class="card-title">Maps</span>
                 </div>
                 <div class="card-content">
-                    <p>I am a very simple card. I am good at containing small bits of information.
-                    I am convenient because I require little markup to use effectively.</p>
+                    <p>Explore the world! Catch pokemon!</p>
                 </div>
                 <div class="card-action">
                     <a href="{% url 'maps_index' %}">Explore</a>
@@ -26,11 +25,11 @@
                     <span class="card-title">Leaderboard</span>
                 </div>
                 <div class="card-content">
-                    <p>I am a very simple card. I am good at containing small bits of information.
-                    I am convenient because I require little markup to use effectively.</p>
+                    <p>See the top trainers around the world!</p>
+                    <p>Feature not yet fully functional.</p>
                 </div>
                 <div class="card-action">
-                    <a href="#">Explore</a>
+                    <a href="{% url 'leaderboard' %}">Explore</a>
                 </div>
             </div>
         </div>
@@ -41,8 +40,7 @@
                     <span class="card-title">Pokebox</span>
                 </div>
                 <div class="card-content">
-                    <p>I am a very simple card. I am good at containing small bits of information.
-                    I am convenient because I require little markup to use effectively.</p>
+                    <p>View all the pokemon you've caught so far!</p>
                 </div>
                 <div class="card-action">
                     {% if user.is_authenticated %}
@@ -60,8 +58,7 @@
                     <span class="card-title">Pokedex</span>
                 </div>
                 <div class="card-content">
-                    <p>I am a very simple card. I am good at containing small bits of information.
-                    I am convenient because I require little markup to use effectively.</p>
+                    <p>Gen 1 Pokedex - View all catchable pokemon here!</p>
                 </div>
                 <div class="card-action">
                     <a href="{% url 'pokedex_index' %}">View Pokedex</a>

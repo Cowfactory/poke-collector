@@ -7,6 +7,8 @@ from django.contrib.auth.models import User
 from random import seed
 from random import randint
 
+
+
 # Seed random number generator
 seed(1)
 
@@ -56,7 +58,7 @@ class Profile(models.Model): #extended user model
 
 
     def __str__(self):
-        return f"User: {self.user}"
+        return f"{self.user}"
 
     def get_absolute_url(self):
         return reverse('profiles_detail', kwargs={'pk': self.user.id})
@@ -100,6 +102,7 @@ class PokedexPokemon(models.Model):
     def __str__(self):
         return f"{self.identifier} {self.name}"
 
+
 class CaughtPokemon(models.Model):
     trainer = models.ForeignKey(
         'Profile',
@@ -137,6 +140,7 @@ class CaughtPokemon(models.Model):
     )
     preferred_art = models.IntegerField(
         choices = IMAGES,
+        default = 1,
     )
 
     def __str__(self):

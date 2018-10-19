@@ -34,5 +34,5 @@ urlpatterns = [
     path('pokedex/<int:pk>/', views.pokedex_detail, name='pokedex_detail'),
 
     # Leaderboard
-    path('leaderboard/', views.leaderboard, name='leaderboard'),
+    path('leaderboard/', views.PokeboxList.as_view(), name='leaderboard'),
 ]
